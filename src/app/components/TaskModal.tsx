@@ -33,6 +33,7 @@ interface TaskModalProps {
         <div className="bg-white p-6 rounded shadow-md z-50">
           <h2 className="text-xl mb-4 text-black">{isEdit ? 'Edit Task' : 'Add a New Task'}</h2>
           
+          <label htmlFor="title" className="mb-2 font-bold text-gray-600">Title:</label>
           <input
             type="text"
             className="w-full p-2 border rounded mb-4 text-gray-800"
@@ -40,7 +41,7 @@ interface TaskModalProps {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
           />
-          
+          <label htmlFor="Description" className="mb-2 font-bold text-gray-600">Description:</label>
           <input
             type="text"
             className="w-full p-2 border rounded mb-4 text-gray-800"
@@ -50,12 +51,12 @@ interface TaskModalProps {
           />
 
           {/* Priority Dropdown */}
-        <label htmlFor="priority" className="block mb-2 font-bold">Priority:</label>
+        <label htmlFor="priority" className="block mb-2 font-bold text-gray-600">Priority:</label>
         <select
           id="priority"
           value={taskPriority}
           onChange={(e) => setTaskPriority(e.target.value as 'urgent' | 'high' | 'normal' | 'low')}
-          className="w-full p-2 border rounded mb-4"
+          className="w-full p-2 border rounded mb-4 text-gray-500"
         >
           <option value="urgent">Urgent</option>
           <option value="high">High</option>
