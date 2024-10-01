@@ -1,6 +1,6 @@
 // src/components/Column.tsx
 import { Droppable } from 'react-beautiful-dnd';
-import Task from './Task'; // Ensure this is correctly imported
+import Task from './Task';
 
 interface ColumnProps {
   columnId: string;
@@ -8,12 +8,22 @@ interface ColumnProps {
     title: string;
     tasks: { id: string; content: string }[];
   };
+  openModal: (columnId: string) => void; // Function to open the modal for task addition
 }
 
-const Column = ({ columnId, column }: ColumnProps) => {
+const Column = ({ columnId, column, openModal }: ColumnProps) => {
   return (
     <div className="w-1/3 bg-gray-200 p-4 rounded-lg">
-      <h2 className="font-bold text-lg mb-2">{column.title}</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="font-bold text-lg">{column.title}</h2>
+        <button
+          className="bg-green-500 text-white p-2 rounded"
+          onClick={() => openModal(columnId)} // Open the modal when clicked
+        >
+          Add Task
+        </button>
+      </div>
+      
       <Droppable droppableId={columnId}>
         {(provided) => (
           <div
@@ -32,4 +42,4 @@ const Column = ({ columnId, column }: ColumnProps) => {
   );
 };
 
-export default Column; // Default export
+export default Column;
