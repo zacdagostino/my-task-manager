@@ -6,7 +6,7 @@ interface ColumnProps {
   columnId: string;
   column: {
     title: string;
-    tasks: { id: string; title: string; content: string }[];
+    tasks: { id: string; title: string; content: string; priority: 'urgent' | 'high' | 'normal' | 'low' }[];
   };
   openModal: (columnId: string) => void;
   editTask: (taskId: string, newTitle: string, newContent: string) => void; // Pass the edit function

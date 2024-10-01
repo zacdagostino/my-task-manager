@@ -1,16 +1,18 @@
 // src/components/TaskModal.tsx
 interface TaskModalProps {
-  isOpen: boolean;
-  closeModal: () => void;
-  saveTask: () => void; // Save task (either create or update)
-  taskName: string;
-  setTaskName: (name: string) => void;
-  taskContent: string;
-  setTaskContent: (content: string) => void;
-  isEdit?: boolean; // Check if this is an edit operation
-}
+    isOpen: boolean;
+    closeModal: () => void;
+    saveTask: () => void;
+    taskName: string;
+    setTaskName: (name: string) => void;
+    taskContent: string;
+    setTaskContent: (content: string) => void;
+    taskPriority: 'urgent' | 'high' | 'normal' | 'low';
+    setTaskPriority: (priority: 'urgent' | 'high' | 'normal' | 'low') => void;
+    isEdit?: boolean;
+  }
 
-const TaskModal = ({
+  const TaskModal = ({
     isOpen,
     closeModal,
     saveTask,
@@ -18,9 +20,11 @@ const TaskModal = ({
     setTaskName,
     taskContent,
     setTaskContent,
+    taskPriority,
+    setTaskPriority,
     isEdit = false,
   }: TaskModalProps) => {
-    if (!isOpen) return null; // Only render modal if it's open
+    if (!isOpen) return null;
   
     return (
       <div
@@ -44,6 +48,20 @@ const TaskModal = ({
             value={taskContent}
             onChange={(e) => setTaskContent(e.target.value)}
           />
+
+          {/* Priority Dropdown */}
+        <label htmlFor="priority" className="block mb-2 font-bold">Priority:</label>
+        <select
+          id="priority"
+          value={taskPriority}
+          onChange={(e) => setTaskPriority(e.target.value as 'urgent' | 'high' | 'normal' | 'low')}
+          className="w-full p-2 border rounded mb-4"
+        >
+          <option value="urgent">Urgent</option>
+          <option value="high">High</option>
+          <option value="normal">Normal</option>
+          <option value="low">Low</option>
+        </select>
           
           <div className="flex justify-between">
             <button className="bg-blue-500 text-white p-2 rounded" onClick={saveTask}>

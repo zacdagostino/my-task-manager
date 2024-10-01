@@ -4,13 +4,16 @@ import { useState } from 'react';
 import TaskModal from './TaskModal'; // Import TaskModal for editing tasks
 
 interface TaskProps {
-  task: { id: string; title: string; content: string };
+  task: { id: string; title: string; content: string; priority: 'urgent' | 'high' | 'normal' | 'low' };
   index: number;
-  editTask: (taskId: string, newTitle: string, newContent: string) => void; // Function to edit task
+  editTask: (taskId: string, newTitle: string, newContent: string, newPriority: 'urgent' | 'high' | 'normal' | 'low' ) => void; // Function to edit task
 }
 
 const Task = ({ task, index, editTask }: TaskProps) => {
   const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
+  const [taskName, setTaskName] = useState(task.title); // State for editing task name
+  const [taskContent, setTaskContent] = useState(task.content); // State for editing task content
+  const [taskPriority, setTaskPriority] = useState(task.priority)
 
   // Open the modal in edit mode
   const openEditModal = () => {
@@ -22,12 +25,9 @@ const Task = ({ task, index, editTask }: TaskProps) => {
     setIsEditing(false);
   };
 
-  const [taskName, setTaskName] = useState(task.title); // State for editing task name
-  const [taskContent, setTaskContent] = useState(task.content); // State for editing task content
-
   // Save the edited task
   const saveTask = () => {
-    editTask(task.id, taskName, taskContent); // Call parent function to update task
+    editTask(task.id, taskName, taskContent, taskPriority); // Call parent function to update task
     closeEditModal();
   };
 
@@ -52,6 +52,11 @@ const Task = ({ task, index, editTask }: TaskProps) => {
           <h3 className="font-bold text-lg text-gray-700">{task.title}</h3>
           <p className="text-gray-600">{task.content}</p>
 
+           {/* Display task priority */}
+           <span className="absolute top-1 left-2 text-xs font-bold text-gray-700">
+            {task.priority.toUpperCase()} {/* Display priority */}
+          </span>
+
           {/* Task Modal for editing */}
           {isEditing && (
             <TaskModal
@@ -62,6 +67,8 @@ const Task = ({ task, index, editTask }: TaskProps) => {
               setTaskName={setTaskName}
               taskContent={taskContent}
               setTaskContent={setTaskContent}
+              taskPriority={taskPriority}
+              setTaskPriority={setTaskPriority}
               isEdit={true} // Mark this modal as editing
             />
           )}

@@ -13,6 +13,7 @@ export default function KanbanBoard() {
   const [currentColumnId, setCurrentColumnId] = useState<string | null>(null); // Track current column
   const [taskName, setTaskName] = useState(''); // Task name state
   const [taskContent, setTaskContent] = useState(''); // Task content state
+  const [taskPriority, setTaskPriority] = useState<'urgent' | 'high' | 'normal' | 'low'>('normal'); // New state for priority
 
   const onDragEnd = (result: any) => {
     const { destination, source } = result;
@@ -51,6 +52,7 @@ export default function KanbanBoard() {
       id: Math.random().toString(),
       title: taskName,
       content: taskContent,
+      priority: taskPriority, // Set default priority
     };
     setColumns((prevColumns) => ({
       ...prevColumns,
@@ -61,11 +63,12 @@ export default function KanbanBoard() {
     }));
     setTaskName('');
     setTaskContent('');
+    setTaskPriority('normal'); // Reset priority to normal after saving
     closeModal();
   };
 
   // Function to edit an existing task
-  const editTask = (taskId: string, newTitle: string, newContent: string) => {
+  const editTask = (taskId: string, newTitle: string, newContent: string, newPriority: 'urgent' | 'high' | 'normal' | 'low') => {
     setColumns((prevColumns) => {
       const newColumns = { ...prevColumns };
 
@@ -75,7 +78,12 @@ export default function KanbanBoard() {
         const taskIndex = column.tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
           // Update the task with the new title and content
-          column.tasks[taskIndex] = { ...column.tasks[taskIndex], title: newTitle, content: newContent };
+          column.tasks[taskIndex] = { 
+            ...column.tasks[taskIndex], 
+            title: newTitle, 
+            content: newContent, 
+            priority: newPriority, // Update priority as well
+             };
           break;
         }
       }
@@ -117,6 +125,8 @@ export default function KanbanBoard() {
         setTaskName={setTaskName}
         taskContent={taskContent}
         setTaskContent={setTaskContent}
+        taskPriority={taskPriority} // Pass task priority
+        setTaskPriority={setTaskPriority} // Handle task priority
       />
     </>
   );
