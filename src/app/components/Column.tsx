@@ -9,7 +9,7 @@ interface ColumnProps {
     tasks: { id: string; title: string; content: string; priority: 'urgent' | 'high' | 'normal' | 'low' }[];
   };
   openModal: (columnId: string) => void;
-  editTask: (taskId: string, newTitle: string, newContent: string) => void; // Pass the edit function
+  editTask: (taskId: string, newTitle: string, newContent: string, priority: 'urgent' | 'high' | 'normal' | 'low') => void; // Pass the edit function
 }
 
 const Column = ({ columnId, column, openModal, editTask }: ColumnProps) => {
