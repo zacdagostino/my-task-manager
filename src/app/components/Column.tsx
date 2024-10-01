@@ -6,7 +6,7 @@ interface ColumnProps {
   columnId: string;
   column: {
     title: string;
-    tasks: { id: string; content: string }[];
+    tasks: { id: string; title: string; content: string }[]; // Ensure tasks have title and content
   };
   openModal: (columnId: string) => void; // Function to open the modal for task addition
 }
@@ -32,7 +32,7 @@ const Column = ({ columnId, column, openModal }: ColumnProps) => {
             className="min-h-[200px] space-y-2"
           >
             {column.tasks.map((task, index) => (
-              <Task key={task.id} task={task} index={index} />
+              <Task key={task.id} task={task} index={index} /> // Pass task with both title and content
             ))}
             {provided.placeholder}
           </div>

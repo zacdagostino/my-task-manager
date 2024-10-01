@@ -17,8 +17,10 @@ export default function KanbanBoard() {
   const onDragEnd = (result: any) => {
     const { destination, source } = result;
     if (!destination) return;
-
+    
     const sourceColumn = columns[source.droppableId];
+    console.log(sourceColumn);
+
     const destinationColumn = columns[destination.droppableId];
     const sourceTasks = Array.from(sourceColumn.tasks);
     const [movedTask] = sourceTasks.splice(source.index, 1);
@@ -44,24 +46,31 @@ export default function KanbanBoard() {
     setCurrentColumnId(columnId);
   };
 
-  // Function to add a new task to the selected column
-  const addTask = () => {
-    if (!taskName.trim() || !taskContent.trim() || !currentColumnId) return;
-    const newTask = {
-      id: Math.random().toString(), // Create a unique ID for the task
-      content: `${taskName}: ${taskContent}`, // Combine task name and content
-    };
-    setColumns((prevColumns) => ({
-      ...prevColumns,
-      [currentColumnId]: {
-        ...prevColumns[currentColumnId],
-        tasks: [...prevColumns[currentColumnId].tasks, newTask], // Append new task
-      },
-    }));
-    setTaskName(''); // Reset task name
-    setTaskContent(''); // Reset task content
-    closeModal(); // Close the modal after adding the task
+  // src/components/KanbanBoard.tsx
+const addTask = () => {
+  if (!taskName.trim() || !taskContent.trim() || !currentColumnId) return;
+  
+  // Create a new task with separate title and content
+  const newTask = {
+    id: Math.random().toString(),
+    title: taskName,     // Store the task title
+    content: taskContent, // Store the task content
   };
+
+  setColumns((prevColumns) => ({
+    ...prevColumns,
+    [currentColumnId]: {
+      ...prevColumns[currentColumnId],
+      tasks: [...prevColumns[currentColumnId].tasks, newTask], // Append the new task
+    },
+  }));
+
+  // Reset input fields and close the modal
+  setTaskName('');
+  setTaskContent('');
+  closeModal();
+};
+
 
   // Function to close the modal
   const closeModal = () => {

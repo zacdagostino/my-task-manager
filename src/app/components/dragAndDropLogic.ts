@@ -3,7 +3,8 @@
 // Define the structure for tasks
 export interface Task {
     id: string;
-    content: string;
+    title: string; // Separate title
+    content: string; // Separate content
   }
   
   // Define the structure for a column
@@ -22,17 +23,17 @@ export interface Task {
     todo: {
       title: 'Todo',
       tasks: [
-        { id: '1', content: 'Task 1' },
-        { id: '2', content: 'Task 2' },
+        { id: '1', title: 'Task 1', content: 'Description of Task 1' },
+        { id: '2', title: 'Task 2', content: 'Description of Task 2' },
       ],
     },
     inProgress: {
       title: 'In Progress',
-      tasks: [{ id: '3', content: 'Task 3' }],
+      tasks: [{ id: '3', title: 'Task 3', content: 'Description of Task 3' }],
     },
     done: {
       title: 'Done',
-      tasks: [{ id: '4', content: 'Task 4' }],
+      tasks: [{ id: '4', title: 'Task 4', content: 'Description of Task 4' }],
     },
   };
   
