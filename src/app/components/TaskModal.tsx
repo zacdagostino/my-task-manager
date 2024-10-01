@@ -27,11 +27,11 @@ const TaskModal = ({
         className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" // Ensure high z-index
       >
         <div className="bg-white p-6 rounded shadow-md z-50">
-          <h2 className="text-xl mb-4">{isEdit ? 'Edit Task' : 'Add a New Task'}</h2>
+          <h2 className="text-xl mb-4 text-black">{isEdit ? 'Edit Task' : 'Add a New Task'}</h2>
           
           <input
             type="text"
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-2 border rounded mb-4 text-gray-800"
             placeholder="Task Name"
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
@@ -39,7 +39,7 @@ const TaskModal = ({
           
           <input
             type="text"
-            className="w-full p-2 border rounded mb-4"
+            className="w-full p-2 border rounded mb-4 text-gray-800"
             placeholder="Task Content"
             value={taskContent}
             onChange={(e) => setTaskContent(e.target.value)}
