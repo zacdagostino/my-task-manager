@@ -9,7 +9,7 @@ import { Columns, initialData } from './dragAndDropLogic'; // Import logic and d
 
 export default function KanbanBoard() {
   const [columns, setColumns] = useState<Columns>(initialData);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state for adding new tasks
   const [currentColumnId, setCurrentColumnId] = useState<string | null>(null); // Track current column
   const [taskName, setTaskName] = useState(''); // Task name state
   const [taskContent, setTaskContent] = useState(''); // Task content state
@@ -17,10 +17,8 @@ export default function KanbanBoard() {
   const onDragEnd = (result: any) => {
     const { destination, source } = result;
     if (!destination) return;
-    
-    const sourceColumn = columns[source.droppableId];
-    console.log(sourceColumn);
 
+    const sourceColumn = columns[source.droppableId];
     const destinationColumn = columns[destination.droppableId];
     const sourceTasks = Array.from(sourceColumn.tasks);
     const [movedTask] = sourceTasks.splice(source.index, 1);
@@ -40,39 +38,53 @@ export default function KanbanBoard() {
     }
   };
 
-  // Function to open the modal for a specific column
+  // Function to open the modal for adding a new task
   const openModal = (columnId: string) => {
     setIsModalOpen(true);
     setCurrentColumnId(columnId);
   };
 
-  // src/components/KanbanBoard.tsx
-const addTask = () => {
-  if (!taskName.trim() || !taskContent.trim() || !currentColumnId) return;
-  
-  // Create a new task with separate title and content
-  const newTask = {
-    id: Math.random().toString(),
-    title: taskName,     // Store the task title
-    content: taskContent, // Store the task content
+  // Function to add a new task
+  const addTask = () => {
+    if (!taskName.trim() || !taskContent.trim() || !currentColumnId) return;
+    const newTask = {
+      id: Math.random().toString(),
+      title: taskName,
+      content: taskContent,
+    };
+    setColumns((prevColumns) => ({
+      ...prevColumns,
+      [currentColumnId]: {
+        ...prevColumns[currentColumnId],
+        tasks: [...prevColumns[currentColumnId].tasks, newTask],
+      },
+    }));
+    setTaskName('');
+    setTaskContent('');
+    closeModal();
   };
 
-  setColumns((prevColumns) => ({
-    ...prevColumns,
-    [currentColumnId]: {
-      ...prevColumns[currentColumnId],
-      tasks: [...prevColumns[currentColumnId].tasks, newTask], // Append the new task
-    },
-  }));
+  // Function to edit an existing task
+  const editTask = (taskId: string, newTitle: string, newContent: string) => {
+    setColumns((prevColumns) => {
+      const newColumns = { ...prevColumns };
 
-  // Reset input fields and close the modal
-  setTaskName('');
-  setTaskContent('');
-  closeModal();
-};
+      // Iterate through columns to find the task by its ID
+      for (const columnId in newColumns) {
+        const column = newColumns[columnId];
+        const taskIndex = column.tasks.findIndex((task) => task.id === taskId);
+        if (taskIndex !== -1) {
+          // Update the task with the new title and content
+          column.tasks[taskIndex] = { ...column.tasks[taskIndex], title: newTitle, content: newContent };
+          break;
+        }
+      }
 
+      return newColumns;
+    });
+  };
 
-  // Function to close the modal
+  // Close the modal for adding new tasks
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentColumnId(null);
@@ -90,16 +102,17 @@ const addTask = () => {
               columnId={columnId}
               column={column}
               openModal={openModal} // Pass the modal handler to the column
+              editTask={editTask} // Pass the edit function to each task
             />
           ))}
         </div>
       </DragDropContext>
 
-      {/* Task Modal */}
+      {/* Task Modal for adding a new task */}
       <TaskModal
         isOpen={isModalOpen}
         closeModal={closeModal}
-        addTask={addTask}
+        saveTask={addTask}
         taskName={taskName}
         setTaskName={setTaskName}
         taskContent={taskContent}
