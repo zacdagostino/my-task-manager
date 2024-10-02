@@ -1,6 +1,6 @@
 // src/app/page.tsx
 import Head from 'next/head';
-import KanbanBoard from './components/KanbanBoard';
+import KanbanBoard from './components/KanbanBoard/KanbanBoard';
 
 export default function Home() {
   return (

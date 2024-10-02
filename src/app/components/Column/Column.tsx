@@ -1,6 +1,6 @@
 // src/components/Column.tsx
 import { Droppable } from 'react-beautiful-dnd';
-import Task from './Task';
+import Task from '../Task/Task';
 
 interface ColumnProps {
   columnId: string;

@@ -3,9 +3,9 @@
 
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useState } from 'react';
-import Column from './Column'; // Import the Column component
-import TaskModal from './TaskModal'; // Import TaskModal component
-import { Columns, initialData } from './dragAndDropLogic'; // Import logic and data structure
+import Column from '../Column/Column'; // Import the Column component
+import TaskModal from '../Task/TaskModal'; // Import TaskModal component
+import { Columns, initialData } from '../../logic/dragAndDropLogic'; // Import logic and data structure
 
 export default function KanbanBoard() {
   const [columns, setColumns] = useState<Columns>(initialData);
